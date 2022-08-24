@@ -6,17 +6,17 @@ RoundSlider is a JavaScript library that runs the calculator sliding function, i
 
 ## Functions that are used to set the calculations 
 
-// div that holds the whole calculator and the sliding circle 
-id="shape"
+# id="shape"
+Div that holds the whole calculator and the sliding circle 
 
-// number in the middle 
-sliderValue; 
+# sliderValue; 
+Number in the middle 
 
-// function that calculates each output for weekly and yearly results   
-count();
+# count();
+Function that calculates each output for weekly and yearly results   
 
-// function that updates calculator number in the middle 
-updateSliderValue(); 
+# updateSliderValue(); 
+Function that updates calculator number in the middle 
 
 // Other slider options that are included to customize 
 $(document).ready(function() {
@@ -47,4 +47,4 @@ function tooltipVal2(args) {
 
 
 ## Deployment 
-initialize the script via <script> tags 
+Initialize the script via <script> tags 
