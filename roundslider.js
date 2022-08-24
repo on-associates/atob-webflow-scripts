@@ -2,32 +2,34 @@ let sliderValue;
 
 const count = () => {
     // Weekly Outputs 
-    var cardMisuse = sliderValue / 18.6333551964701;
+    const cardMisuse = sliderValue / 18.63307743906984;
     document.getElementById('weekly_card_misuse').innerText = `$ ${cardMisuse.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
-    var outWeekHiddenFees = sliderValue / 93.16712318557028;
+    const outWeekHiddenFees = sliderValue / 93.17927692881103;
     document.getElementById('weekly_hidden_fees').innerHTML = `$ ${outWeekHiddenFees.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
-    var outWeekCardFailures = sliderValue / 111.7992979004092;
+    const outWeekCardFailures = sliderValue / 111.8067978533095;
     document.getElementById('weekly_card_failures').innerHTML = `$ ${outWeekCardFailures.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
-    var outWeekDiscountsNetwork = sliderValue / 37.26671039294019;
+    const outWeekDiscountsNetwork = sliderValue / 37.26893261776983;
     document.getElementById('weekly_discounts_network').innerHTML = `$ ${outWeekDiscountsNetwork.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
     // Weekly Total 
-    var outWeekTotalSavings = sliderValue / 9.982151912380663;
+    const outWeekTotalSavings = sliderValue / 9.982032341784787;
     document.getElementById('weekly_total_savings').innerHTML = `$ ${outWeekTotalSavings.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
 
-
-
     // Yearly Outputs 
-    var outYearlyCardMisuse = cardMisuse * 52;
+    const outYearlyCardMisuse = sliderValue * 2.790696;
     document.getElementById('yearly_card_misuse').innerHTML = `$ ${outYearlyCardMisuse.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
-    var outYearlyHiddenFees = sliderValue * 0.5581396;
+    const outYearlyHiddenFees = sliderValue * 0.55814;
     document.getElementById('yearly_hidden_fees').innerHTML = `$ ${outYearlyHiddenFees.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
-    var outYearlyCardFailures = sliderValue * 0.465116;
+    const outYearlyCardFailures = sliderValue * 0.465116;
     document.getElementById('yearly_card_failures').innerHTML = `$ ${outYearlyCardFailures.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
-    var outYearlyDiscountsNetwork = sliderValue * 1.395348;
+    const outYearlyDiscountsNetwork = sliderValue * 1.395348;
     document.getElementById('yearly_discounts_network').innerHTML = `$ ${outYearlyDiscountsNetwork.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
     // Yearly Total 
-    var outYearlyTotalSavings = sliderValue * 5.209304;
+    const outYearlyTotalSavings = sliderValue * 5.209304;
     document.getElementById('yearly_total_savings').innerHTML = `$ ${outYearlyTotalSavings.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
+
+    const toggleBackground = document.querySelector('.toggle-background').onclick = () => { 
+            sliderValue = value * 52;
+    }
 }
 
 const updateSliderValue = () => {
@@ -1850,14 +1852,11 @@ const updateSliderValue = () => {
         }
         return d.join(" ");
     }
-
     RoundSlider.prototype.$getArcLength = function(radius, degree) {
         // when degree not provided we can consider that arc as a complete circle
         if (typeof degree == "undefined") degree = 360;
         // circle's arc length formula => 2πR(Θ/360)
         return 2 * Math.PI * radius * (degree / 360);
     }
-
     $.fn[pluginName].prototype = RoundSlider.prototype;
-
 });
