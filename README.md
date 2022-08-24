@@ -1,7 +1,7 @@
 ### Getting Started
 
 
-RoundSlider is a JavaScript library that runs the calculator sliding function, it's built on top of jqeury as an IIFE. 
+RoundSlider is a JavaScript library that runs the calculator sliding function, it's built on top of jQuery as an IIFE. 
 
 
 ## Functions that are used to set the calculations 
