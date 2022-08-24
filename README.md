@@ -19,5 +19,6 @@ Function that updates calculator number in the middle
 - updateSliderValue(); 
 
 
+
 ## Deployment 
 Initialize the script via <script> tags 
