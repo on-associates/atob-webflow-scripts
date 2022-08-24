@@ -6,7 +6,7 @@ RoundSlider is a JavaScript library that runs the calculator sliding function, i
 
 ## Functions that are used to set the calculations 
 
-Div that holds the whole calculator and the sliding circle 
+Div that holds the whole calculator with the sliding circle 
 - id="shape"
 
 Number in the middle 
