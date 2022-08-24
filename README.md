@@ -1,10 +1,10 @@
-### Getting Started
+## Getting Started
 
 
 RoundSlider is a JavaScript library that runs the calculator sliding function, it's built on top of jQuery as an IIFE. 
 
 
-## Functions that are used to set the calculations 
+### Functions that are used to set the calculations 
 
 Div that holds the whole calculator with the sliding circle 
 - id="shape"
@@ -20,7 +20,7 @@ Function that updates calculator number in the middle
 
 
 
-## Updating the script and deploying  
+### Updating the script and deploying  
 
 This script needs to be used externally with Webflow, because Webflow has a limitation of 10,000 characters and this library exceeds that. Every time you make changes, update the url for it to be functioning properly in the steps provided below 
 
