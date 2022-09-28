@@ -1,8 +1,8 @@
 ## Getting Started
 
 
-1. RoundSlider is a JavaScript library that runs the calculator sliding function. It's built on top of jQuery as an IIFE. 
-2. Card slider is a vanilla JavaScript set of functions that run only on mobile devices. It's used as external repository, instead of hosting all of the code on Webflow.
+#### RoundSlider is a JavaScript library that runs the calculator sliding function. It's built on top of jQuery as an IIFE. 
+#### Card slider is a vanilla JavaScript set of functions that run only on mobile devices. It's used as external repository, instead of hosting all of the code on Webflow.
 
 ### Functions that are used to set the calculations 
 
@@ -20,7 +20,7 @@ Function that updates calculator number in the middle
 - updateSliderValue(); 
 
 
-### Updating the script and deploying  
+### Updating scripts and deploying  
 
 This script needs to be used externally with Webflow, because Webflow has a limitation of 10,000 characters and this library exceeds that. Every time you make changes, update the url for it to be functioning properly in the steps provided below:
 
