@@ -19,6 +19,7 @@ Function that calculates each output for weekly and yearly results
 Function that updates calculator number in the middle 
 - updateSliderValue(); 
 
+<br />
 
 ### Updating scripts and deploying  
 
