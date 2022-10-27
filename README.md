@@ -1,8 +1,7 @@
 ## Getting Started
 
 
-#### 1. RoundSlider is a JavaScript library that runs the calculator sliding function. It's built on top of jQuery as an IIFE. 
-#### 2. Card slider is a vanilla JavaScript set of functions that run only on mobile devices. It's used as external repository, instead of hosting all of the code on Webflow.
+#### RoundSlider is a JavaScript library that runs the calculator sliding function. It's built on top of jQuery as an IIFE. 
 
 <br />
 
