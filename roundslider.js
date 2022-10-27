@@ -1,6 +1,13 @@
-let sliderValue;
+let sliderValue;;
+let config = 'weekly';
+let configChanged = false;
 
-const count = () => {
+const updateSliderValue = () => {
+    count();
+}
+
+// On sliding the handle, calculate output values
+function count() {
     // Weekly Outputs 
     const cardMisuse = sliderValue / 18.63307743906984;
     document.getElementById('weekly_card_misuse').innerText = `$ ${cardMisuse.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
@@ -26,14 +33,6 @@ const count = () => {
     // Yearly Total 
     const outYearlyTotalSavings = sliderValue * 5.209304;
     document.getElementById('yearly_total_savings').innerHTML = `$ ${outYearlyTotalSavings.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
-
-    const toggleBackground = document.querySelector('.toggle-background').onclick = () => { 
-            sliderValue = value * 52;
-    }
-}
-
-const updateSliderValue = () => {
-    count();
 }
 
 (function(factory) {
@@ -130,7 +129,6 @@ const updateSliderValue = () => {
                 stringType: ["sliderType", "circleShape", "handleShape", "lineCap"]
             };
         },
-
         _init: function() {
             var options = this.options;
             if (options.svgMode) {
@@ -284,12 +282,13 @@ const updateSliderValue = () => {
             var color = tooltipColor !== "inherit" ? tooltipColor : o.rangeColor;
             if (ele && color != null) ele.css("color", color);
         },
+
+        // Editing of the number starts here 
         _tooltipEditable: function() {
             var o = this.options,
                 tooltip = this.tooltip,
                 hook;
             if (!tooltip || !o.showTooltip) return;
-
             if (o.editableTooltip) {
                 tooltip.addClass("rs-edit");
                 hook = "_bind";
@@ -299,20 +298,48 @@ const updateSliderValue = () => {
             }
             this[hook](tooltip, "click", this._editTooltip);
         },
+        // Editing the number, focus in 
         _editTooltip: function(e) {
             var tooltip = this.tooltip;
             if (!tooltip.hasClass("rs-edit") || this._isReadOnly) return;
             var border = parseFloat(tooltip.css("border-left-width")) * 2;
             var input = this.input = this.$createElement("input.rs-input rs-tooltip-text").css({
                 height: tooltip.outerHeight() - border,
-                width: tooltip.outerWidth() - border
+                // width: tooltip.outerWidth() - border
             });
             this._setTooltipColor(input);
             tooltip.html(input).removeClass("rs-edit").addClass("rs-hover");
 
-            input.focus().val(this._getTooltipValue(true));
+            // When focusing in, store the class in a variable 
+            const inputEl = document.querySelector('.rs-input');
+            const rsHover = document.querySelector('.rs-hover');
+            // Create and add $ sign in front of the input when focusing in
+            const newNode = document.createElement("span");
+            const textNode = document.createTextNode("$");
+            newNode.appendChild(textNode);
+            
+            rsHover.insertBefore(newNode, rsHover.children[0]);
 
+            // Input accepts only numbers, not letters
+            inputEl.setAttribute('type', 'number');
+            inputEl.style.maxWidth = '100px';
+            inputEl.toLocaleString('en-Us');
+
+            // On sliding the handle, reset values to weekly default state
+            config = 'weekly';
+            const allResults = document.querySelectorAll('.all-results');
+            const configuratorBtn = document.getElementById('toggleBackground');
+            calcHeadline.innerHTML = 'Weekly Fuel Spend';
+            for (const results of allResults) { 
+                results.style.transform = 'translateY(0%)';
+                results.style.transition = 'all 350ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
+            }
+            toggleDot.style.transform = 'translateX(0px)';
+            toggleDot.style.transition = 'all 450ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
+
+            input.focus().val(this._getTooltipValue(true));
             this._bind(input, "blur change", this._focusOut);
+            // input.focus().val(`$${this._getTooltipValue(true).toLocaleString('en-Us', { maximumFractionDigits: 2})}`);
         },
         _focusOut: function(e) {
             if (e.type == "change") {
@@ -321,7 +348,6 @@ const updateSliderValue = () => {
                     val = "-" + val.slice(1).replace("-", ",");
                 }
                 this.options.value = val;
-
                 if (this._validateValue(true)) {
                     this.input.val(this._getTooltipValue(true));
                     this._raiseEvent("change");
@@ -332,6 +358,7 @@ const updateSliderValue = () => {
                 this._updateTooltip();
             }
         },
+        // Editing ends here 
         _setHandleShape: function() {
             var options = this.options,
                 type = options.handleShape,
@@ -380,16 +407,16 @@ const updateSliderValue = () => {
                 if (o.lineCap != "none") {
                     extraSize = (o.lineCap === "butt") ? (o.borderWidth / 2) : ((o.width / 2) + o.borderWidth);
                     if (circleShape.indexOf("bottom") != -1) {
-                        handleBars.css("margin-top", extraSize + 'px');
+                        // handleBars.css("margin-top", extraSize + 'px');
                     }
                     if (circleShape.indexOf("right") != -1) {
-                        handleBars.css("margin-right", -extraSize + 'px');
+                        // handleBars.css("margin-right", -extraSize + 'px');
                     }
                 } else {
                     // when lineCap none, then remove the styles that was set previously for the other lineCap props
                     $.each(handleBars, function(i, bar) {
-                        bar.style.removeProperty("margin-top");
-                        bar.style.removeProperty("margin-right");
+                        // bar.style.removeProperty("margin-top");
+                        // bar.style.removeProperty("margin-right");
                     });
                 }
             }
@@ -706,11 +733,9 @@ const updateSliderValue = () => {
             if (keyboardActionEnabled) {
                 this._bindKeyboardEvents("_unbind");
             }
-
             if (e.type === "blur") {
                 return
             }
-
             // when the handle gets focus
             var $target = $(e.target);
             $target.addClass("rs-focus");
@@ -829,6 +854,20 @@ const updateSliderValue = () => {
 
         // internal methods
         _changeSliderValue: function(value, angle) {
+            // On sliding the handle, change values to weekly
+            config = 'weekly'
+            const calcHeadline = document.querySelector('.calc_headline');
+            calcHeadline.innerHTML = 'Weekly Fuel Spend';
+            const allResults = document.querySelectorAll('.all-results');
+            const configuratorBtn = document.getElementById('toggleBackground');
+            calcHeadline.innerHTML = 'Weekly Fuel Spend';
+            for (const results of allResults) { 
+                results.style.transform = 'translateY(0%)';
+                results.style.transition = 'all 350ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
+            }
+            toggleDot.style.transform = 'translateX(0px)';
+            toggleDot.style.transition = 'all 450ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
+
             var oAngle = this._oriAngle(angle),
                 lAngle = this._limitAngle(angle),
                 activeHandle = this._active,
@@ -1178,18 +1217,21 @@ const updateSliderValue = () => {
                     marginLeft = -(tooltip.outerWidth() / 2); // the previous styles so that we can get the proper values.
                 tooltip.removeClass("rs-reset");
 
-                if (circleShape == "full" || circleShape == "pie" || circleShape.indexOf("custom") === 0) {
-                    pos = { "margin-top": marginTop, "margin-left": marginLeft };
-                } else if (circleShape == "half-top" || circleShape == "half-bottom") {
-                    pos = { "margin-left": marginLeft };
-                } else if (circleShape == "half-left" || circleShape == "half-right") {
-                    pos = { "margin-top": marginTop };
-                }
+                // This calculates position of the number inside the calculator 
+                // if (circleShape == "full" || circleShape == "pie" || circleShape.indexOf("custom") === 0) {
+                //     pos = { "margin-top": marginTop, "margin-left": marginLeft };
+                // } else if (circleShape == "half-top" || circleShape == "half-bottom") {
+                //     pos = { "margin-left": marginLeft };
+                // } else if (circleShape == "half-left" || circleShape == "half-right") {
+                //     pos = { "margin-top": marginTop };
+                // }
             }
             tooltip.css(pos);
         },
         _getTooltipValue: function(isNormal) {
             var value = this.options.value;
+            // var value = config === 'yearly' ? this.options.value * 52 : this.options.value;
+
             sliderValue = value;
             if (this._rangeSlider) {
                 var p = value.split(",");
@@ -1723,6 +1765,7 @@ const updateSliderValue = () => {
             this._removeData();
             if (this._isInputType) this.control.remove();
         }
+
     };
 
     $.fn.rsRotate = function(degree) {
@@ -1860,3 +1903,43 @@ const updateSliderValue = () => {
     }
     $.fn[pluginName].prototype = RoundSlider.prototype;
 });
+
+window.onload = init;
+
+// Get the variables 
+const toggleDot = document.querySelector('.toggle-dot');
+const calcHeadline = document.querySelector('.calc_headline');
+
+function init(){
+    const sliderTextEl = document.querySelector('.rs-tooltip');
+    const allResults = document.querySelectorAll('.all-results');
+    const configuratorBtn = document.getElementById('toggleBackground');
+
+    // toggle button
+    configuratorBtn.addEventListener('click', function() {
+        // change to weekly, default state is weekly
+        if (config === 'weekly') {
+            calcHeadline.innerHTML = 'Yearly Fuel Spend';
+            for (const results of allResults) { 
+                results.style.transform = 'translateY(-50%)';
+                results.style.transition = 'all 350ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
+            }
+            toggleDot.style.transform = 'translateX(20px)';
+            toggleDot.style.transition = 'all 450ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
+            sliderTextEl.innerText = `$${(sliderValue*52).toLocaleString("en-Us", { maximumFractionDigits: 2 })}`;
+            return config = 'yearly';
+        }
+        if (config === 'yearly') {
+            // change to yearly
+            calcHeadline.innerHTML = 'Weekly Fuel Spend';
+            for (const results of allResults) { 
+                results.style.transform = 'translateY(0%)';
+                results.style.transition = 'all 350ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
+            }
+            toggleDot.style.transform = 'translateX(0px)';
+            toggleDot.style.transition = 'all 450ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
+            sliderTextEl.innerText = `$${(sliderValue).toLocaleString("en-Us", { maximumFractionDigits: 2})}`;
+            return config = 'weekly';
+        }
+    })
+}
