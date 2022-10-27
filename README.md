@@ -2,7 +2,6 @@
 
 
 #### RoundSlider is a JavaScript library that runs the calculator sliding function. It's built on top of jQuery as an IIFE. 
-
 <br />
 
 ### Round Slider
