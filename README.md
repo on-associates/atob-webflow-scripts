@@ -21,8 +21,8 @@ Function that updates calculator number in the middle
 
 ### Updating scripts and deploying  
 
-This script needs to be used externally with Webflow, because Webflow has a limitation of 10,000 characters and this library exceeds that. Every time you make changes, update the url for it to be functioning properly in the steps provided below:
+This script needs to be used externally with Webflow, because Webflow has a limitation of 10,000 characters and this library exceeds that. Every time you make changes, update script tags url for it to be functioning properly, in the steps provided below:
 
 - Select the repository you want to use and copy the url, for example: https://github.com/on-associates/atob-webflow-scripts/blob/main/roundslider.min.js 
 - Run through JSDelivr to create a cdn. Go to this website: https://www.jsdelivr.com/github 
-- Use the output between the tags <script src=""></script> inside Webflow 
+- Use the output between the tags <script src=""></script> inside Webflow.
