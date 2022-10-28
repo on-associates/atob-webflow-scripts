@@ -323,7 +323,7 @@ function count() {
             // Input accepts only numbers, not letters
             inputEl.setAttribute('type', 'number');
             inputEl.style.maxWidth = '300px';
-            inputEl.style.background = 'red';
+            inputEl.style.backgroundColor = 'red';
             inputEl.toLocaleString('en-Us');
 
             // On sliding the handle, reset values to weekly default state
