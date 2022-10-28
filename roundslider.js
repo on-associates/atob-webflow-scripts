@@ -1,4 +1,4 @@
-let sliderValue;;
+let sliderValue;
 let config = 'weekly';
 let configChanged = false;
 
