@@ -310,9 +310,9 @@ function count() {
             this._setTooltipColor(input);
             tooltip.html(input).removeClass("rs-edit").addClass("rs-hover");
 
-            // When focusing in, store the class in a variable 
-            const inputEl = document.querySelector('.rs-input');
-            const rsHover = document.querySelector('.rs-hover');
+            // When focusing in, store editing classes in a variable 
+            const inputEl = document.querySelector('.rs-input'); // input element
+            const rsHover = document.querySelector('.rs-hover'); // focused state
             // Create and add $ sign in front of the input when focusing in
             const newNode = document.createElement("span");
             const textNode = document.createTextNode("$");
@@ -1907,8 +1907,8 @@ function count() {
 window.onload = init;
 
 // Get the variables 
-const toggleDot = document.querySelector('.toggle-dot');
-const calcHeadline = document.querySelector('.calc_headline');
+const toggleDot = document.querySelector('#toggle-dot');
+const calcHeadline = document.querySelector('#calc_headline');
 
 function init(){
     const sliderTextEl = document.querySelector('.rs-tooltip');
