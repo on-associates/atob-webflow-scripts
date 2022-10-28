@@ -322,8 +322,7 @@ function count() {
 
             // Input accepts only numbers, not letters
             inputEl.setAttribute('type', 'number');
-            // inputEl.style.maxWidth = '300px';
-            // inputEl.style.backgroundColor = 'red';
+            // inputEl.style.maxWidth = '157px';
             inputEl.toLocaleString('en-Us');
 
             // On sliding the handle, reset values to weekly default state
