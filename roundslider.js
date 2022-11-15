@@ -35,7 +35,7 @@ function count() {
     document.getElementById('yearly_total_savings').innerHTML = `$ ${outYearlyTotalSavings.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
 }
 
-(function(factory) {
+(function (factory) {
     if (typeof define === 'function' && define.amd) {
         define(['jquery'], factory);
     } else if (typeof exports !== 'undefined') {
@@ -43,14 +43,14 @@ function count() {
     } else {
         factory(jQuery);
     }
-})(function($) {
+})(function ($) {
     "use strict";
 
     var pluginName = "roundSlider";
     let currentSliderValue;
 
     // The plugin initialization
-    $.fn[pluginName] = function(options) {
+    $.fn[pluginName] = function (options) {
         return CreateRoundSlider.call(this, options, arguments);
     };
 
@@ -120,7 +120,7 @@ function count() {
             LEFT: 37, // left arrow
             RIGHT: 39 // right arrow
         },
-        _props: function() {
+        _props: function () {
             return {
                 numberType: ["min", "max", "step", "radius", "width", "borderWidth", "startAngle", "startValue"],
                 booleanType: ["animation", "showTooltip", "editableTooltip", "readOnly", "disabled",
@@ -129,10 +129,10 @@ function count() {
                 stringType: ["sliderType", "circleShape", "handleShape", "lineCap"]
             };
         },
-        _init: function() {
+        _init: function () {
             var options = this.options;
             if (options.svgMode) {
-                var EMPTY_FUNCTION = function() {};
+                var EMPTY_FUNCTION = function () { };
                 this._appendSeperator = EMPTY_FUNCTION;
                 this._refreshSeperator = EMPTY_FUNCTION;
                 this._updateSeperator = EMPTY_FUNCTION;
@@ -153,19 +153,19 @@ function count() {
                 this._onInit();
             }
         },
-        _onInit: function() {
+        _onInit: function () {
             this._initialize();
             this._update();
             this._render();
         },
-        _initialize: function() {
+        _initialize: function () {
             var browserName = this.browserName = this.getBrowserName();
             if (browserName) this.control.addClass("rs-" + browserName);
             this._isReadOnly = false;
             this._checkDataType();
             this._refreshCircleShape();
         },
-        _render: function() {
+        _render: function () {
             this.container = this.$createElement("div.rs-container");
             this.innerContainer = this.$createElement("div.rs-inner-container");
             this.container.append(this.innerContainer);
@@ -184,7 +184,7 @@ function count() {
             this._raiseValueChange("create");
             this._updatePre();
         },
-        _update: function() {
+        _update: function () {
             this._validateSliderType();
             this._updateStartEnd();
             this._validateStartEnd();
@@ -192,7 +192,7 @@ function count() {
             this._analyzeModelValue();
             this._validateModelValue();
         },
-        _createLayers: function() {
+        _createLayers: function () {
             var options = this.options;
             if (options.svgMode) {
                 this._createSVGElements();
@@ -224,13 +224,13 @@ function count() {
             this.lastBlock.append(this.innerBlock);
             this.block.append(this.lastBlock);
         },
-        _createOtherLayers: function() {
+        _createOtherLayers: function () {
             this._appendHandle();
             this._appendSeperator(); // non SVG mode only
             this._appendOverlay(); // non SVG mode only
             this._appendHiddenField();
         },
-        _setProperties: function() {
+        _setProperties: function () {
             var options = this.options;
             this._setHandleShape();
             this._addAnimation();
@@ -240,19 +240,19 @@ function count() {
             else if (options.readOnly) this._readOnly(true);
             if (options.mouseScrollAction) this._bindScrollEvents("_bind");
         },
-        _updatePre: function() {
+        _updatePre: function () {
             this._prechange = this._predrag = this._pre_bvc = this._preValue = this.options.value;
         },
-        _backupPreValue: function() {
+        _backupPreValue: function () {
             this._pre_handle1 = this._handle1;
             this._pre_handle2 = this._handle2;
         },
-        _revertPreValue: function() {
+        _revertPreValue: function () {
             this._handle1 = this._pre_handle1;
             this._handle2 = this._pre_handle2;
             this._updateModelValue();
         },
-        _setValue: function() {
+        _setValue: function () {
             if (this._rangeSlider) {
                 this._setHandleValue(1);
                 this._setHandleValue(2);
@@ -264,19 +264,22 @@ function count() {
             }
 
         },
-        _appendTooltip: function() {
+        _appendTooltip: function () {
             if (this.container.children(".rs-tooltip").length !== 0) return;
             var tooltip = this.tooltip = this.$createElement("span.rs-tooltip rs-tooltip-text");
+
             this.container.append(tooltip);
+
             this._setTooltipColor(tooltip);
             this._tooltipEditable();
             this._updateTooltip();
+            initTooltip()
         },
-        _removeTooltip: function() {
+        _removeTooltip: function () {
             if (this.container.children(".rs-tooltip").length == 0) return;
             this.tooltip && this.tooltip.remove();
         },
-        _setTooltipColor: function(ele) {
+        _setTooltipColor: function (ele) {
             var o = this.options,
                 tooltipColor = o.tooltipColor;
             var color = tooltipColor !== "inherit" ? tooltipColor : o.rangeColor;
@@ -284,7 +287,7 @@ function count() {
         },
 
         // Editing of the number starts here 
-        _tooltipEditable: function() {
+        _tooltipEditable: function () {
             var o = this.options,
                 tooltip = this.tooltip,
                 hook;
@@ -299,25 +302,26 @@ function count() {
             this[hook](tooltip, "click", this._editTooltip);
         },
         // Editing the number, focus in 
-        _editTooltip: function(e) {
+        _editTooltip: function (e) {
             var tooltip = this.tooltip;
             if (!tooltip.hasClass("rs-edit") || this._isReadOnly) return;
             var border = parseFloat(tooltip.css("border-left-width")) * 2;
             var input = this.input = this.$createElement("input.rs-input rs-tooltip-text").css({
                 height: tooltip.outerHeight() - border,
-                // width: tooltip.outerWidth() - border
             });
             this._setTooltipColor(input);
             tooltip.html(input).removeClass("rs-edit").addClass("rs-hover");
 
+
             // When focusing in, store editing classes in a variable 
             const inputEl = document.querySelector('.rs-input'); // input element
             const rsHover = document.querySelector('.rs-hover'); // focused state
+
             // Create and add $ sign in front of the input when focusing in
             const newNode = document.createElement("span");
             const textNode = document.createTextNode("$");
             newNode.appendChild(textNode);
-            
+
             rsHover.insertBefore(newNode, rsHover.children[0]);
 
             // Input accepts only numbers, not letters
@@ -330,18 +334,20 @@ function count() {
             const allResults = document.querySelectorAll('.all-results');
             const configuratorBtn = document.getElementById('toggleBackground');
             calcHeadline.innerHTML = 'Weekly Fuel Spend';
-            for (const results of allResults) { 
+            for (const results of allResults) {
                 results.style.transform = 'translateY(0%)';
                 results.style.transition = 'all 350ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
             }
             toggleDot.style.transform = 'translateX(0px)';
             toggleDot.style.transition = 'all 450ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
 
+
+
+
             input.focus().val(this._getTooltipValue(true));
             this._bind(input, "blur change", this._focusOut);
-            // input.focus().val(`$${this._getTooltipValue(true).toLocaleString('en-Us', { maximumFractionDigits: 2})}`);
         },
-        _focusOut: function(e) {
+        _focusOut: function (e) {
             if (e.type == "change") {
                 var val = this.input.val().replace("-", ",");
                 if (val[0] == ",") {
@@ -359,7 +365,7 @@ function count() {
             }
         },
         // Editing ends here 
-        _setHandleShape: function() {
+        _setHandleShape: function () {
             var options = this.options,
                 type = options.handleShape,
                 allHandles = this._handles();
@@ -368,19 +374,19 @@ function count() {
             else if (type == "square") allHandles.addClass("rs-handle-square");
             else options.handleShape = "round";
         },
-        _setHandleValue: function(index) {
+        _setHandleValue: function (index) {
             this._active = index;
             var handle = this["_handle" + index];
             if (!this._minRange) this.bar = this._activeHandleBar();
             this._changeSliderValue(handle.value, handle.angle);
         },
-        _addAnimation: function() {
+        _addAnimation: function () {
             if (this.options.animation) this.control.addClass("rs-animation");
         },
-        _removeAnimation: function() {
+        _removeAnimation: function () {
             this.control.removeClass("rs-animation");
         },
-        _setContainerClass: function() {
+        _setContainerClass: function () {
             var circleShape = this.options.circleShape;
             if (circleShape == "full" || circleShape == "pie" || circleShape.indexOf("custom") === 0) {
                 this.container.addClass("rs-full rs-" + circleShape);
@@ -388,7 +394,7 @@ function count() {
                 this.container.addClass("rs-" + circleShape.split("-").join(" rs-"));
             }
         },
-        _setRadius: function() {
+        _setRadius: function () {
             var o = this.options,
                 r = o.radius,
                 d = r * 2,
@@ -414,7 +420,7 @@ function count() {
                     }
                 } else {
                     // when lineCap none, then remove the styles that was set previously for the other lineCap props
-                    $.each(handleBars, function(i, bar) {
+                    $.each(handleBars, function (i, bar) {
                         // bar.style.removeProperty("margin-top");
                         // bar.style.removeProperty("margin-right");
                     });
@@ -451,30 +457,30 @@ function count() {
                     .children("svg").height(d).width(d);
             }
         },
-        _border: function(seperator) {
+        _border: function (seperator) {
             var options = this.options;
             if (options.svgMode) return options.borderWidth * 2;
             if (seperator) return parseFloat(this._startLine.children().css("border-bottom-width"));
             return parseFloat(this.block.css("border-top-width")) * 2;
         },
-        _appendHandle: function() {
+        _appendHandle: function () {
             // if this is range or default slider then create handle 1
             if (this._rangeSlider || !this._minRange) this._createHandle(1);
             // if this is range or min-range slider then create handle 2
             if (this._showRange) this._createHandle(2);
         },
-        _appendSeperator: function() {
+        _appendSeperator: function () {
             this._startLine = this._addSeperator(this._start, "rs-start");
             this._endLine = this._addSeperator(this._start + this._end, "rs-end");
             this._refreshSeperator();
         },
-        _addSeperator: function(pos, cls) {
+        _addSeperator: function (pos, cls) {
             var line = this.$createElement("span.rs-seperator rs-border");
             var lineWrap = this.$createElement("span.rs-bar rs-transition " + cls).append(line).rsRotate(pos);
             this.container.append(lineWrap);
             return lineWrap;
         },
-        _refreshSeperator: function() {
+        _refreshSeperator: function () {
             var bars = this._startLine.add(this._endLine),
                 seperators = bars.children().removeAttr("style");
             var o = this.options,
@@ -491,11 +497,11 @@ function count() {
                 seperators.css({ "width": size, "margin-top": this._border(true) / -2 }).removeClass("rs-range-color rs-path-color");
             }
         },
-        _updateSeperator: function() {
+        _updateSeperator: function () {
             this._startLine.rsRotate(this._start);
             this._endLine.rsRotate(this._start + this._end);
         },
-        _createHandle: function(index) {
+        _createHandle: function (index) {
             var handle = this.$createElement("div.rs-handle rs-move"),
                 o = this.options,
                 hs;
@@ -522,7 +528,7 @@ function count() {
             this._bind(handle, "focus blur", this._handleFocus);
             return handle;
         },
-        _refreshHandle: function() {
+        _refreshHandle: function () {
             var o = this.options,
                 hSize = o.handleSize,
                 width = o.width,
@@ -540,28 +546,28 @@ function count() {
             var diff = (width + this._border() - w) / 2;
             this._handles().css({ height: h, width: w, "margin": -h / 2 + "px 0 0 " + diff + "px" });
         },
-        _defaultValue: function() {
+        _defaultValue: function () {
             var o = this.options,
                 startValue = o.startValue;
             var defaultValue = this.isNumber(startValue) ? this._limitValue(startValue) : o.min;
             return defaultValue;
         },
-        _handleDefaults: function() {
+        _handleDefaults: function () {
             var defaultValue = this._defaultValue();
             return { angle: this._valueToAngle(defaultValue), value: defaultValue };
         },
-        _handleBars: function() {
+        _handleBars: function () {
             return this.container.children("div.rs-bar");
         },
-        _handles: function() {
+        _handles: function () {
             return this._handleBars().find(".rs-handle");
         },
-        _activeHandleBar: function(index) {
+        _activeHandleBar: function (index) {
             if (this._minRange) return this.bar;
             index = (index != undefined) ? index : this._active;
             return $(this._handleBars()[index - 1]);
         },
-        _handleArgs: function(index) {
+        _handleArgs: function (index) {
             index = (index != undefined) ? index : this._active;
             var _handle = this["_handle" + index] || {};
             return {
@@ -572,10 +578,10 @@ function count() {
                 angle: _handle.angle
             };
         },
-        _dataElement: function() {
+        _dataElement: function () {
             return this._isInputType ? this._hiddenField : this.control;
         },
-        _raiseEvent: function(event) {
+        _raiseEvent: function (event) {
             var preValue = this["_pre" + event],
                 currentValue = this.options.value;
             if (preValue !== currentValue) {
@@ -598,7 +604,7 @@ function count() {
                 }
             }
         },
-        _raiseBeforeValueChange: function(action, value) {
+        _raiseBeforeValueChange: function (action, value) {
             if (typeof value !== "undefined") {
                 if (this._rangeSlider) value = this._formRangeValue(value);
             } else {
@@ -628,7 +634,7 @@ function count() {
             // at that time also slider needs to update, even though value not changed
             return isUserAction ? false : true;
         },
-        _raiseValueChange: function(action) {
+        _raiseValueChange: function (action) {
             var value = this.options.value,
                 handles = [];
             if (!this._minRange) handles.push(this._handleArgs(1)); // for range and default slider
@@ -649,7 +655,7 @@ function count() {
         },
 
         // Events handlers
-        _elementDown: function(e) {
+        _elementDown: function (e) {
             if (this._isReadOnly) return;
             var $target = $(e.target);
 
@@ -694,7 +700,7 @@ function count() {
                 }
             }
         },
-        _handleDown: function(e) {
+        _handleDown: function (e) {
             e.preventDefault();
             var $target = $(e.target);
             $target.focus();
@@ -705,7 +711,7 @@ function count() {
             this._handles().removeClass("rs-move");
             this._raise("start", { value: this.options.value, "handle": this._handleArgs() });
         },
-        _handleMove: function(e) {
+        _handleMove: function (e) {
             e.preventDefault();
             var point = this._getXY(e),
                 center = this._getCenterPoint();
@@ -718,14 +724,14 @@ function count() {
                 this._raiseEvent("drag");
             }
         },
-        _handleUp: function(e) {
+        _handleUp: function (e) {
             this._handles().addClass("rs-move");
             this._bindMouseEvents("_unbind");
             this._addAnimation();
             this._raiseEvent("change");
             this._raise("stop", { value: this.options.value, "handle": this._handleArgs() });
         },
-        _handleFocus: function(e) {
+        _handleFocus: function (e) {
             if (this._isReadOnly) return;
             // the below checks are common for both focus and blur events
             this._handles().removeClass("rs-focus");
@@ -749,7 +755,7 @@ function count() {
             this.control.find("div.rs-bar").css("z-index", "7");
             this.bar.css("z-index", "8");
         },
-        _handleKeyDown: function(e) {
+        _handleKeyDown: function (e) {
             var key = e.keyCode,
                 keyCodes = this.keys;
 
@@ -779,11 +785,11 @@ function count() {
                 this._raiseEvent("drag");
             }
         },
-        _handleKeyUp: function(e) {
+        _handleKeyUp: function (e) {
             this._addAnimation();
             this._raiseEvent("change");
         },
-        _getMinusStep: function(val) {
+        _getMinusStep: function (val) {
             var o = this.options,
                 min = o.min,
                 max = o.max,
@@ -794,7 +800,7 @@ function count() {
             }
             return step;
         },
-        _getKeyValue: function(key) {
+        _getKeyValue: function (key) {
             var o = this.options,
                 min = o.min,
                 max = o.max;
@@ -804,7 +810,7 @@ function count() {
             }
             return (key == "Home") ? min : max;
         },
-        _elementScroll: function(event) {
+        _elementScroll: function (event) {
             if (this._isReadOnly) return;
             event.preventDefault();
             var e = event.originalEvent || event,
@@ -825,7 +831,7 @@ function count() {
                 this._addAnimation();
             }
         },
-        _updateActiveHandle: function(e) {
+        _updateActiveHandle: function (e) {
             var $target = $(e.target);
             if ($target.hasClass("rs-handle") && $target.parent().parent()[0] == this.control[0]) {
                 this.bar = $target.parent();
@@ -835,25 +841,25 @@ function count() {
         },
 
         // Events binding
-        _bindControlEvents: function(hook) {
+        _bindControlEvents: function (hook) {
             this[hook](this.control, "mousedown touchstart", this._elementDown);
         },
-        _bindScrollEvents: function(hook) {
+        _bindScrollEvents: function (hook) {
             this[hook](this.control, "mousewheel DOMMouseScroll", this._elementScroll);
         },
-        _bindMouseEvents: function(hook) {
+        _bindMouseEvents: function (hook) {
             var _document = $(document);
             this[hook](_document, "mousemove touchmove", this._handleMove);
             this[hook](_document, "mouseup mouseleave touchend touchcancel", this._handleUp);
         },
-        _bindKeyboardEvents: function(hook) {
+        _bindKeyboardEvents: function (hook) {
             var _document = $(document);
             this[hook](_document, "keydown", this._handleKeyDown);
             this[hook](_document, "keyup", this._handleKeyUp);
         },
 
         // internal methods
-        _changeSliderValue: function(value, angle) {
+        _changeSliderValue: function (value, angle) {
             // On sliding the handle, change values to weekly
             config = 'weekly'
             const calcHeadline = document.querySelector('.calc_headline');
@@ -861,7 +867,7 @@ function count() {
             const allResults = document.querySelectorAll('.all-results');
             const configuratorBtn = document.getElementById('toggleBackground');
             calcHeadline.innerHTML = 'Weekly Fuel Spend';
-            for (const results of allResults) { 
+            for (const results of allResults) {
                 results.style.transform = 'translateY(0%)';
                 results.style.transition = 'all 350ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
             }
@@ -910,7 +916,7 @@ function count() {
         },
 
         // SVG related functionalities
-        _createSVGElements: function() {
+        _createSVGElements: function () {
             var svgEle = this.$createSVG("svg");
             var PATH = "path.rs-transition ";
             var pathAttr = { fill: "transparent" };
@@ -924,7 +930,7 @@ function count() {
                 .append(svgEle)
                 .appendTo(this.innerContainer);
         },
-        _setSVGAttributes: function() {
+        _setSVGAttributes: function () {
             var o = this.options,
                 radius = o.radius,
                 border = o.borderWidth,
@@ -961,7 +967,7 @@ function count() {
                 else this.$range.removeAttribute("stroke-dashoffset");
             }
         },
-        _setSVGStyles: function() {
+        _setSVGStyles: function () {
             var o = this.options,
                 borderColor = o.borderColor,
                 pathColor = o.pathColor,
@@ -982,7 +988,7 @@ function count() {
                 $(this.$range).css("stroke", rangeColor);
             }
         },
-        _moveSliderRange: function(isInit) {
+        _moveSliderRange: function (isInit) {
             if (!this._showRange) return;
 
             var startAngle = this._start,
@@ -1029,27 +1035,27 @@ function count() {
 
             this.$range.style.strokeDasharray = dashArray.join(" ");
         },
-        _isPropsRelatedToSVG: function(property) {
+        _isPropsRelatedToSVG: function (property) {
             var svgRelatedProps = ["radius", "borderWidth", "width", "lineCap", "startAngle", "endAngle"];
             return this._hasProperty(property, svgRelatedProps);
         },
-        _isPropsRelatedToSVGStyles: function(property) {
+        _isPropsRelatedToSVGStyles: function (property) {
             var svgStylesRelatedProps = ["borderColor", "pathColor", "rangeColor"];
             return this._hasProperty(property, svgStylesRelatedProps);
         },
-        _hasProperty: function(property, list) {
+        _hasProperty: function (property, list) {
             if (typeof property == "string") {
                 return (list.indexOf(property) !== -1);
             } else {
                 var allProperties = Object.keys(property);
-                return allProperties.some(function(prop) {
+                return allProperties.some(function (prop) {
                     return (list.indexOf(prop) !== -1);
                 });
             }
         },
 
         // WAI-ARIA support
-        _updateARIA: function(value) {
+        _updateARIA: function (value) {
             var o = this.options,
                 min = o.min,
                 max = o.max;
@@ -1063,14 +1069,14 @@ function count() {
                 else handles.eq(0).attr({ "aria-valuemax": value });
             } else this.bar.children().attr({ "aria-valuemin": min, "aria-valuemax": max });
         },
-        _getDistance: function(p1, p2) {
+        _getDistance: function (p1, p2) {
             return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
         },
-        _getXY: function(e) {
+        _getXY: function (e) {
             if (e.type.indexOf("mouse") == -1) e = (e.originalEvent || e).changedTouches[0];
             return { x: e.pageX, y: e.pageY };
         },
-        _getCenterPoint: function() {
+        _getCenterPoint: function () {
             var block = this.block || this.svgContainer;
             var offset = block.offset(),
                 center;
@@ -1080,14 +1086,14 @@ function count() {
             };
             return center;
         },
-        _getAngleValue: function(point, center, isDrag) {
+        _getAngleValue: function (point, center, isDrag) {
             var deg = Math.atan2(point.y - center.y, center.x - point.x);
             var angle = (-deg / (Math.PI / 180));
             if (angle < this._start) angle += 360;
             angle = this._checkAngle(angle, isDrag);
             return this._processStepByAngle(angle);
         },
-        _checkAngle: function(angle, isDrag) {
+        _checkAngle: function (angle, isDrag) {
             var o_angle = this._oriAngle(angle),
                 preAngle = this["_handle" + this._active].angle,
                 o_preAngle = this._oriAngle(preAngle);
@@ -1102,11 +1108,11 @@ function count() {
             }
             return angle;
         },
-        _processStepByAngle: function(angle) {
+        _processStepByAngle: function (angle) {
             var value = this._angleToValue(angle);
             return this._processStepByValue(value);
         },
-        _processStepByValue: function(value) {
+        _processStepByValue: function (value) {
             var o = this.options,
                 min = o.min,
                 max = o.max,
@@ -1131,21 +1137,21 @@ function count() {
             newVal = this._round(newVal), ang = this._valueToAngle(newVal);
             return { value: newVal, angle: ang };
         },
-        _round: function(val) {
+        _round: function (val) {
             var s = this.options.step.toString().split(".");
             return s[1] ? parseFloat(val.toFixed(s[1].length)) : Math.round(val);
         },
-        _oriAngle: function(angle) {
+        _oriAngle: function (angle) {
             var ang = angle - this._start;
             if (ang < 0) ang += 360;
             return ang;
         },
-        _limitAngle: function(angle) {
+        _limitAngle: function (angle) {
             if (angle > 360 + this._start) angle -= 360;
             if (angle < this._start) angle += 360;
             return angle;
         },
-        _limitValue: function(value) {
+        _limitValue: function (value) {
             var o = this.options,
                 min = o.min,
                 max = o.max,
@@ -1154,7 +1160,7 @@ function count() {
             if ((!isMinHigher && value > max) || (isMinHigher && value < max)) value = max;
             return value;
         },
-        _angleToValue: function(angle) {
+        _angleToValue: function (angle) {
             var o = this.options,
                 min = o.min,
                 max = o.max,
@@ -1162,7 +1168,7 @@ function count() {
             value = (this._oriAngle(angle) / this._end) * (max - min) + min;
             return value;
         },
-        _valueToAngle: function(value) {
+        _valueToAngle: function (value) {
             var o = this.options,
                 min = o.min,
                 max = o.max,
@@ -1170,7 +1176,7 @@ function count() {
             angle = (((value - min) / (max - min)) * this._end) + this._start;
             return angle;
         },
-        _appendHiddenField: function() {
+        _appendHiddenField: function () {
             var hiddenField = this._hiddenField = this._hiddenField || this.$createElement("input");
             hiddenField.attr({
                 "type": "hidden",
@@ -1179,11 +1185,11 @@ function count() {
             this.control.append(hiddenField);
             this._updateHidden();
         },
-        _updateHidden: function() {
+        _updateHidden: function () {
             var val = this.options.value;
             this._hiddenField.val(val);
         },
-        _updateTooltip: function() {
+        _updateTooltip: function () {
             var o = this.options,
                 tooltip = this.tooltip;
             if (tooltip) {
@@ -1199,7 +1205,7 @@ function count() {
             }
             updateSliderValue();
         },
-        _updateTooltipPos: function() {
+        _updateTooltipPos: function () {
             var o = this.options,
                 circleShape = o.circleShape,
                 pos = {};
@@ -1228,7 +1234,7 @@ function count() {
             }
             tooltip.css(pos);
         },
-        _getTooltipValue: function(isNormal) {
+        _getTooltipValue: function (isNormal) {
             var value = this.options.value;
             // var value = config === 'yearly' ? this.options.value * 52 : this.options.value;
 
@@ -1241,11 +1247,11 @@ function count() {
             if (isNormal) return value;
             return this._tooltipValue(value);
         },
-        _tooltipValue: function(value, index) {
+        _tooltipValue: function (value, index) {
             var returnValue = this._raise("tooltipFormat", { value: value, "handle": this._handleArgs(index) });
             return (returnValue != null && typeof returnValue !== "boolean") ? returnValue : value;
         },
-        _validateStartAngle: function() {
+        _validateStartAngle: function () {
             var options = this.options,
                 start = options.startAngle;
             start = (this.isNumber(start) ? parseFloat(start) : 0) % 360;
@@ -1253,7 +1259,7 @@ function count() {
             options.startAngle = start;
             return start;
         },
-        _validateEndAngle: function() {
+        _validateEndAngle: function () {
             var o = this.options,
                 start = o.startAngle,
                 end = o.endAngle;
@@ -1268,7 +1274,7 @@ function count() {
             if (end <= start) end += 360;
             return end;
         },
-        _refreshCircleShape: function() {
+        _refreshCircleShape: function () {
             var options = this.options,
                 circleShape = options.circleShape;
             var allCircelShapes = ["half-top", "half-bottom", "half-left", "half-right",
@@ -1283,7 +1289,7 @@ function count() {
             }
             options.circleShape = circleShape;
         },
-        _appendOverlay: function() {
+        _appendOverlay: function () {
             var shape = this.options.circleShape;
             if (shape == "pie")
                 this._checkOverlay(".rs-overlay", 270);
@@ -1293,7 +1299,7 @@ function count() {
                     this._checkOverlay(".rs-overlay2", this._end);
             }
         },
-        _checkOverlay: function(cls, angle) {
+        _checkOverlay: function (cls, angle) {
             var overlay = this.container.children(cls);
             if (overlay.length == 0) {
                 overlay = this.$createElement("div" + cls + " rs-transition rs-bg-color");
@@ -1301,7 +1307,7 @@ function count() {
             }
             overlay.rsRotate(this._start + angle);
         },
-        _checkDataType: function() {
+        _checkDataType: function () {
             var m = this.options,
                 i, prop, value, props = this._props();
             // to check number datatype
@@ -1321,7 +1327,7 @@ function count() {
                 m[prop] = ("" + value).toLowerCase();
             }
         },
-        _validateSliderType: function() {
+        _validateSliderType: function () {
             var options = this.options,
                 type = options.sliderType.toLowerCase();
             this._rangeSlider = this._showRange = this._minRange = false;
@@ -1332,7 +1338,7 @@ function count() {
             } else type = "default";
             options.sliderType = type;
         },
-        _updateStartEnd: function() {
+        _updateStartEnd: function () {
             var o = this.options,
                 circle = o.circleShape,
                 startAngle = o.startAngle,
@@ -1351,14 +1357,14 @@ function count() {
                 o.startAngle = startAngle;
             }
         },
-        _validateStartEnd: function() {
+        _validateStartEnd: function () {
             this._start = this._validateStartAngle();
             this._end = this._validateEndAngle();
 
             var add = (this._start < this._end) ? 0 : 360;
             this._end += add - this._start;
         },
-        _validateValue: function(isChange) {
+        _validateValue: function (isChange) {
             this._backupPreValue();
             this._analyzeModelValue();
             this._validateModelValue();
@@ -1372,7 +1378,7 @@ function count() {
                 return false;
             }
         },
-        _analyzeModelValue: function() {
+        _analyzeModelValue: function () {
             var o = this.options,
                 val = o.value,
                 newValue;
@@ -1392,10 +1398,10 @@ function count() {
             }
             o.value = newValue;
         },
-        _parseModelValue: function(value) {
+        _parseModelValue: function (value) {
             return this.isNumber(value) ? parseFloat(value) : this._defaultValue();
         },
-        _validateModelValue: function() {
+        _validateModelValue: function () {
             var o = this.options,
                 val = o.value;
             if (this._rangeSlider) {
@@ -1423,7 +1429,7 @@ function count() {
             }
             this._updateModelValue();
         },
-        _updateModelValue: function() {
+        _updateModelValue: function () {
             var value;
             if (this._rangeSlider) {
                 value = this._handle1.value + "," + this._handle2.value;
@@ -1433,7 +1439,7 @@ function count() {
             }
             this.options.value = value;
         },
-        _formRangeValue: function(value, index) {
+        _formRangeValue: function (value, index) {
             index = index || this._active;
             var h1 = this._handle1.value,
                 h2 = this._handle2.value;
@@ -1441,11 +1447,11 @@ function count() {
         },
 
         // common core methods
-        $createElement: function(tag) {
+        $createElement: function (tag) {
             var t = tag.split('.');
             return $(document.createElement(t[0])).addClass(t[1] || "");
         },
-        $createSVG: function(tag, attr) {
+        $createSVG: function (tag, attr) {
             var t = tag.split('.');
             var svgEle = document.createElementNS("http://www.w3.org/2000/svg", t[0]);
             if (t[1]) {
@@ -1456,7 +1462,7 @@ function count() {
             }
             return svgEle;
         },
-        $setAttribute: function(ele, attr) {
+        $setAttribute: function (ele, attr) {
             for (var key in attr) {
                 var val = attr[key];
                 if (key === "class") {
@@ -1467,17 +1473,17 @@ function count() {
             }
             return ele;
         },
-        $append: function(parent, children) {
-            children.forEach(function(element) {
+        $append: function (parent, children) {
+            children.forEach(function (element) {
                 element && parent.appendChild(element);
             });
             return parent;
         },
-        isNumber: function(number) {
+        isNumber: function (number) {
             number = parseFloat(number);
             return typeof number === "number" && !isNaN(number);
         },
-        getBrowserName: function() {
+        getBrowserName: function () {
             var browserName = "",
                 ua = window.navigator.userAgent;
             if ((!!window.opr && !!opr.addons) || !!window.opera || ua.indexOf(' OPR/') >= 0) browserName = "opera";
@@ -1488,7 +1494,7 @@ function count() {
             else if ((!!window.chrome && !!window.chrome.webstore) || (ua.indexOf('Chrome') != -1)) browserName = "chrome";
             return browserName;
         },
-        _isBrowserSupported: function() {
+        _isBrowserSupported: function () {
             var properties = ["borderRadius", "WebkitBorderRadius", "MozBorderRadius",
                 "OBorderRadius", "msBorderRadius", "KhtmlBorderRadius"
             ];
@@ -1497,7 +1503,7 @@ function count() {
             }
             console.error(pluginName + ' : Browser not supported');
         },
-        _raise: function(event, args) {
+        _raise: function (event, args) {
             var o = this.options,
                 fn = o[event],
                 val = true;
@@ -1519,30 +1525,30 @@ function count() {
             this.control.trigger($.Event(event, args));
             return val;
         },
-        _bind: function(element, _event, handler) {
+        _bind: function (element, _event, handler) {
             $(element).bind(_event, $.proxy(handler, this));
         },
-        _unbind: function(element, _event, handler) {
+        _unbind: function (element, _event, handler) {
             $(element).unbind(_event, $.proxy(handler, this));
         },
-        _getInstance: function() {
+        _getInstance: function () {
             return $.data(this._dataElement()[0], pluginName);
         },
-        _saveInstanceOnElement: function() {
+        _saveInstanceOnElement: function () {
             $.data(this.control[0], pluginName, this);
         },
-        _saveInstanceOnID: function() {
+        _saveInstanceOnID: function () {
             var id = this.id;
             if (id && typeof window[id] !== "undefined")
                 window[id] = this;
         },
-        _removeData: function() {
+        _removeData: function () {
             var control = this._dataElement()[0];
             $.removeData && $.removeData(control, pluginName);
             if (control.id && typeof window[control.id]["_init"] === "function")
                 delete window[control.id];
         },
-        _destroyControl: function() {
+        _destroyControl: function () {
             if (this._isInputType) this._dataElement().insertAfter(this.control).attr("type", "text");
             this.control.empty().removeClass("rs-control").height("").width("");
             this._removeAnimation();
@@ -1551,20 +1557,20 @@ function count() {
         },
 
         // methods to dynamic options updation (through option)
-        _updateWidth: function() {
+        _updateWidth: function () {
             this.lastBlock.css("padding", this.options.width);
         },
-        _readOnly: function(bool) {
+        _readOnly: function (bool) {
             this._isReadOnly = bool;
             this.container.removeClass("rs-readonly");
             if (bool) this.container.addClass("rs-readonly");
         },
 
         // get & set for the properties
-        _get: function(property) {
+        _get: function (property) {
             return this.options[property];
         },
-        _set: function(property, value, forceSet) {
+        _set: function (property, value, forceSet) {
             var props = this._props();
             if ($.inArray(property, props.numberType) != -1) { // to check number datatype
                 if (!this.isNumber(value)) return;
@@ -1675,7 +1681,7 @@ function count() {
         },
 
         // public methods
-        option: function(property, value) {
+        option: function (property, value) {
             if (!property || !this._getInstance()) return;
 
             var options = this.options;
@@ -1725,7 +1731,7 @@ function count() {
 
             return this;
         },
-        getValue: function(index) {
+        getValue: function (index) {
             if (this._rangeSlider && this.isNumber(index)) {
                 var i = parseFloat(index);
                 if (i == 1 || i == 2)
@@ -1733,7 +1739,7 @@ function count() {
             }
             return this._get("value");
         },
-        setValue: function(value, index) {
+        setValue: function (value, index) {
             if (this.isNumber(value)) {
                 if (this.isNumber(index)) {
                     if (this._rangeSlider) {
@@ -1745,30 +1751,29 @@ function count() {
                 this._set("value", value);
             }
         },
-        refreshTooltip: function() {
+        refreshTooltip: function () {
             this._updateTooltipPos();
         },
-        disable: function() {
+        disable: function () {
             this.options.disabled = true;
             this.container.addClass("rs-disabled");
             this._readOnly(true);
         },
-        enable: function() {
+        enable: function () {
             var options = this.options;
             options.disabled = false;
             this.container.removeClass("rs-disabled");
             if (!options.readOnly) this._readOnly(false);
         },
-        destroy: function() {
+        destroy: function () {
             if (!this._getInstance()) return;
             this._destroyControl();
             this._removeData();
             if (this._isInputType) this.control.remove();
         }
-
     };
 
-    $.fn.rsRotate = function(degree) {
+    $.fn.rsRotate = function (degree) {
         var control = this,
             rotation = "rotate(" + degree + "deg)";
         control.css('-webkit-transform', rotation);
@@ -1821,7 +1826,7 @@ function count() {
     }
 
     // ### SVG related logic
-    RoundSlider.prototype.$polarToCartesian = function(centerXY, radius, angleInDegrees) {
+    RoundSlider.prototype.$polarToCartesian = function (centerXY, radius, angleInDegrees) {
         var angleInRadians = (angleInDegrees - 180) * Math.PI / 180;
 
         return [
@@ -1830,7 +1835,7 @@ function count() {
         ].join(" ");
     }
 
-    RoundSlider.prototype.$drawArc = function(centerXY, radius, startAngle, endAngle, isOuter) {
+    RoundSlider.prototype.$drawArc = function (centerXY, radius, startAngle, endAngle, isOuter) {
         var isCircle = (endAngle - startAngle == 360);
         var largeArcFlag = Math.abs(startAngle - endAngle) <= 180 ? "0" : "1";
         var isClockwise = true;
@@ -1860,7 +1865,7 @@ function count() {
         return path.join(" ");
     }
 
-    RoundSlider.prototype.$drawPath = function(centerXY, outerRadius, startAngle, endAngle, innerRadius, lineCap) {
+    RoundSlider.prototype.$drawPath = function (centerXY, outerRadius, startAngle, endAngle, innerRadius, lineCap) {
         var outerStart = this.$polarToCartesian(centerXY, outerRadius, startAngle);
         var outerArc = this.$drawArc(centerXY, outerRadius, startAngle, endAngle, true); // draw outer circle
 
@@ -1895,7 +1900,7 @@ function count() {
         }
         return d.join(" ");
     }
-    RoundSlider.prototype.$getArcLength = function(radius, degree) {
+    RoundSlider.prototype.$getArcLength = function (radius, degree) {
         // when degree not provided we can consider that arc as a complete circle
         if (typeof degree == "undefined") degree = 360;
         // circle's arc length formula => 2πR(Θ/360)
@@ -1904,42 +1909,47 @@ function count() {
     $.fn[pluginName].prototype = RoundSlider.prototype;
 });
 
-window.onload = init;
-
 // Get the variables 
 const toggleDot = document.querySelector('#toggle-dot');
 const calcHeadline = document.querySelector('#calc_headline');
 
-function init(){
+function initTooltip() {
     const sliderTextEl = document.querySelector('.rs-tooltip');
+    console.log(sliderTextEl)
+
     const allResults = document.querySelectorAll('.all-results');
     const configuratorBtn = document.getElementById('toggleBackground');
 
     // toggle button
-    configuratorBtn.addEventListener('click', function() {
+    configuratorBtn.addEventListener('click', function () {
         // change to weekly, default state is weekly
         if (config === 'weekly') {
             calcHeadline.innerHTML = 'Yearly Fuel Spend';
-            for (const results of allResults) { 
+            for (const results of allResults) {
                 results.style.transform = 'translateY(-50%)';
                 results.style.transition = 'all 350ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
             }
             toggleDot.style.transform = 'translateX(20px)';
             toggleDot.style.transition = 'all 450ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
-            sliderTextEl.innerHTML = `$${(sliderValue*52).toLocaleString("en-Us", { maximumFractionDigits: 2 })}`;
+            sliderTextEl.innerHTML = `$${(sliderValue * 52).toLocaleString('en-Us', { maximumFractionDigits: 2 })}`;
             return config = 'yearly';
         }
         if (config === 'yearly') {
             // change to yearly
             calcHeadline.innerHTML = 'Weekly Fuel Spend';
-            for (const results of allResults) { 
+            for (const results of allResults) {
                 results.style.transform = 'translateY(0%)';
                 results.style.transition = 'all 350ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
             }
             toggleDot.style.transform = 'translateX(0px)';
             toggleDot.style.transition = 'all 450ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
-            sliderTextEl.innerHTML = `$${(sliderValue).toLocaleString("en-Us", { maximumFractionDigits: 2})}`;
+            sliderTextEl.innerHTML = `$${(sliderValue).toLocaleString('en-Us', { maximumFractionDigits: 2 })}`;
             return config = 'weekly';
         }
     })
 }
+
+window.addEventListener("keydown", e => {
+    console.dir(e)
+    if (e.key === "Enter" && e.target.className === "rs-input rs-tooltip-text") e.target.blur()
+})
