@@ -10,7 +10,7 @@ const updateSliderValue = () => {
 function count() {
     // Weekly Outputs 
     const cardMisuse = sliderValue / 18.63307743906984;
-    document.getElementById('weekly_card_misuse').innerText = `$ ${cardMisuse.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
+    document.getElementById('weekly_card_misuse').innerHTML = `$ ${cardMisuse.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
     const outWeekHiddenFees = sliderValue / 93.17927692881103;
     document.getElementById('weekly_hidden_fees').innerHTML = `$ ${outWeekHiddenFees.toLocaleString("en-Us", { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
     const outWeekCardFailures = sliderValue / 111.8067978533095;
@@ -1926,7 +1926,7 @@ function init(){
             }
             toggleDot.style.transform = 'translateX(20px)';
             toggleDot.style.transition = 'all 450ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
-            sliderTextEl.innerText = `$${(sliderValue*52).toLocaleString("en-Us", { maximumFractionDigits: 2 })}`;
+            sliderTextEl.innerHTML = `$${(sliderValue*52).toLocaleString("en-Us", { maximumFractionDigits: 2 })}`;
             return config = 'yearly';
         }
         if (config === 'yearly') {
@@ -1938,7 +1938,7 @@ function init(){
             }
             toggleDot.style.transform = 'translateX(0px)';
             toggleDot.style.transition = 'all 450ms cubic-bezier(0.165, 0.840, 0.440, 1.000)';
-            sliderTextEl.innerText = `$${(sliderValue).toLocaleString("en-Us", { maximumFractionDigits: 2})}`;
+            sliderTextEl.innerHTML = `$${(sliderValue).toLocaleString("en-Us", { maximumFractionDigits: 2})}`;
             return config = 'weekly';
         }
     })
