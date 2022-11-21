@@ -1915,7 +1915,6 @@ const calcHeadline = document.querySelector('#calc_headline');
 
 function initTooltip() {
     const sliderTextEl = document.querySelector('.rs-tooltip');
-    console.log(sliderTextEl)
 
     const allResults = document.querySelectorAll('.all-results');
     const configuratorBtn = document.getElementById('toggleBackground');
