@@ -1950,6 +1950,5 @@ function initTooltip() {
 }
 
 window.addEventListener("keydown", e => {
-    console.dir(e)
     if (e.key === "Enter" && e.target.className === "rs-input rs-tooltip-text") e.target.blur()
 })
