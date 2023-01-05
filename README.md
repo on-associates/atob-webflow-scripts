@@ -25,4 +25,4 @@ This script needs to be used externally with Webflow, because Webflow has a limi
 
 - Select the repository you want to use and copy the url, for example: https://github.com/on-associates/atob-webflow-scripts/blob/main/roundslider.min.js 
 - Run through [JSDelivr](https://www.jsdelivr.com/) or [raw.githack](https://raw.githack.com) to create a cdn.
-- Insert the url and use the output between the <script></script> tags in Webflow.
+- Insert the production url between the <script src=""></script> tags in Webflow.
